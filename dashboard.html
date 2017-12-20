@@ -1,0 +1,36 @@
+﻿<div >
+   
+    <div>
+        <div id="listofname">
+                
+        </div>
+    </div>
+    <pre>{{$storage.get('testKey')}}</pre>
+    <!--  <div >
+        <table>
+            <tr ng-repeat="listofname in localstring">
+                   
+                <td> {{ listofname.name }} </td>
+                <td> <button> Edit </button> </td>
+                <td> <button ng-click="$storage.remove('')"> Delete</button> </td>
+            </tr>
+        </table>
+    </div>
+    -->
+    <div id="dashboardList" class="groove">
+        <a href="#" ng-click="allStorage()" style="margin:20px"><strong>Dashboard List</strong> </a>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Dashboard Name</th>
+                    <th>Action</th>
+                </tr>
+             </thead>
+                <tr ng-repeat="name in check">
+                    <td> {{ name.name }} </td>
+                    <td> <button id="editbutton" class="btn btn-secondary"> Edit </button>  <button id="deletebutton" class="btn btn-danger" ng-click="$storage.remove(name.name); allStorage()"> Delete</button></td>
+                    
+                </tr>
+        </table>
+    </div>
+</div>

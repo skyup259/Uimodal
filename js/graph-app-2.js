@@ -20,9 +20,9 @@ graphApp.controller('Ctrl', function ($scope) {
 creating GraphCtrl controller
 */
 
-graphApp.controller('GraphCtrl', function ($scope) {
+graphApp.controller('GraphCtrl', function ($scope, $rootScope) {
     $scope.chart = null;
-    $scope.firstname = "sunny";
+    $rootScope.firstname = "saurabh";
 	var typeVar='';  // for assigning the type of the chart
     $scope.config = {};
 	// different data used for the chart
@@ -93,27 +93,13 @@ graphApp.controller('GraphCtrl', function ($scope) {
         $scope.users = null;
         
     }
-    
-    $scope.showGraph = function (type, data1, data2) {
- 
-		 typeVar = type;
-		var config = {};
-		config.bindto = '#'+type;
-		config.data = {};
-		config.data.json = {};
-		config.data.json.data1 = data1.split(",");
-		config.data.json.data2 = data2.split(",");
-		config.axis = {"y":{"label":{"text":"Number of items","position":"outer-middle"}}};
-		config.data.types={"data1":type,"data2":type};
-		$scope.chart = c3.generate(config);	
 
-	// Adding all user information 	
-        $scope.userInfo.push(type);
-		$scope.userInfo.push(data1);
-		$scope.userInfo.push(data2);
-        $scope.users = null;
-        
-	}	
+
+    $scope.dashboard = function (name) {
+        //userinfo = userinfo.toString();
+        localStorage.setItem(name, "dsfh");
+    }
+    	
 });
 
 
@@ -121,5 +107,32 @@ graphApp.controller('GraphCtrl', function ($scope) {
 graphApp.controller('myCtrl', function($scope) { // a controller
 });
 
+
+
+
+graphApp.factory('$storage', function ($window) {
+    return {
+        get: function (key) {
+            var value = $window.localStorage[key];
+            return value ? JSON.parse(value) : null;
+        },
+        set: function (key, value) {
+            $window.localStorage[key] = JSON.stringify(value);
+        },
+    }
+});
+graphApp.controller('TestCtrl', function ($scope, $rootScope, $storage) {
+    $scope.$storage = $storage;
+    $scope.setAnObject = function () {
+       // console.log("in function");
+      //  var username = $scope.firstname;
+        var userdetail = $scope.userInfo;
+       // console.log(username);
+        console.log($rootScope.firstname);
+        //$storage.set(username, userdetail);
+
+    }
+
+});
 
 
