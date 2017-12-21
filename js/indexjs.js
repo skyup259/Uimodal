@@ -50,7 +50,6 @@ app.controller('TestCtrl', function ($scope, $storage) {
             var counter = temp[i];
             txt += "<table border='1'>"
             txt += "<tr><td>" + counter.name + "</td> <td>" + "<button > Edit </button>" + "</td> <td>" + "<button> Delete </button>" + "</td></tr > ";
-
             txt += "</table>"
             document.getElementById("listofname").innerHTML = txt;
             // document.getElementById("listofname").innerHTML = counter.name;
@@ -68,15 +67,46 @@ app.controller('TestCtrl', function ($scope, $storage) {
         i = keys.length;
 
         $scope.check = values;
-
-        //while (i--) {
-        //   values.push(localStorage.getItem(keys[i]));
-        // }
-
-        //console.log(values);
     }
 
-});
+    function displayGraphChart(type, data1, data2, width, height) {
+        typeVar = type;
+       // console.log("data1="+ data1);
+       // console.log("data2="+ data2);
+        var config = {};
+        config.bindto = '#' + type;
+        config.data = {};
+        config.data.json = {};
+        config.data.json.data1 = data1.split(",");
+        config.data.json.data2 = data2.split(",");
+        config.axis = { "y": { "label": { "text": "Number of items", "position": "outer-middle" } } };
+        config.data.types = { "data1": type, "data2": type };
+        config.size = { width: width * 100, height: height * 100 };
+        config.override = { borderColor: ['rgba(0, 255, 0, 1)', 'rgba(0, 255, 0, 1)'], hoverBorderColor: ['rgba(0, 255, 0, 1)', 'rgba(0, 255, 0, 1)'] };
+        config.border = { width: 4};
+        $scope.chart = c3.generate(config);
+    }
+
+/**
+function is for displaychart of resp name by getting data from localstroge
+param: key-> passing key from the localstroage 
+*/
+    $scope.displayChart = function(key) {
+           
+            var output = document.getElementById('chart');
+            var val="";
+            for(var i = 0;i<$storage.get(key).length;i++){
+                var innerdiv = document.createElement('div');
+                innerdiv.id = $storage.get(key)[i].type;
+                chart.appendChild(innerdiv);
+            }
+
+            for(var i = 0;i<$storage.get(key).length;i++){
+              
+                 displayGraphChart($storage.get(key)[i].type, $storage.get(key)[i].data1, $storage.get(key)[i].data2, $storage.get(key)[i].width, $storage.get(key)[i].heigth);
+            }
+        }
+    });
 app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
 
     $scope.chartType = ["pie", "bar", "area", "line", "spline", "step"];
@@ -121,10 +151,6 @@ app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
         });
     });
 
-    /**
-
-
-    */
 
     $scope.IsVisible = false;
     $scope.ShowHide = function () {
@@ -136,9 +162,6 @@ app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
 
     $scope.Graph = function (type, data1, data2, width, height) {
         // console.log("in");
-
-
-
         $rootScope.firstname = "sunny";
         typeVar = type;
         var config = {};
@@ -158,15 +181,13 @@ app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
        // type = "type: " + type +" ";
        // data1 = "data1: " + data1 + " ";
         // data2 = "data2: " + data2 + " ";
-        var obj = { type: type, data1: data1, data2: data2 };
+        var obj = { type: type, data1: data1, data2: data2, width:  width, height: height};
       //  $scope.userInfo.push(type);
        // $scope.userInfo.push(data1);
         $scope.userInfo.push(obj);
       //  console.log(userInfo);
         $scope.users = null;
     }
-
-   
 
     $scope.dashboard = function (name) {
         //userinfo = userinfo.toString();
@@ -178,14 +199,10 @@ app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
       // console.log("in function");
           var username = $scope.firstname;
         var userdetail = $scope.userInfo;
-         //console.log(username);
-        //console.log(userdetail);
-        //console.log($scope.userInfo);
         $storage.set(username, userdetail);
     }
  
 });
-
 
 // button hide and show controller
 app.controller('myCtrl', function ($scope) { // a controller

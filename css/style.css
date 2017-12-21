@@ -114,3 +114,9 @@ table caption {
 div.groove {
     border-style: ridge;
 }
+
+
+#dekh{
+	width: 100%;
+    min-width: 1050px;
+}

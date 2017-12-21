@@ -27,10 +27,30 @@
                 </tr>
              </thead>
                 <tr ng-repeat="name in check">
-                    <td> {{ name.name }} </td>
+                    <td data-target="#dashboardModal" data-toggle="modal" ng-click="displayChart(name.name)" >  <a href="#" >{{ name.name }} </a> </td>
                     <td> <button id="editbutton" class="btn btn-secondary"> Edit </button>  <button id="deletebutton" class="btn btn-danger" ng-click="$storage.remove(name.name); allStorage()"> Delete</button></td>
                     
                 </tr>
         </table>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="modal" data-keyboard="false" data-backdrop="static" id="dashboardModal" tabindex="-1">
+            <div id="dekh" class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <!-- creating tab with html -->
+                        <div id='chart'>    </div>
+                    </div>
+                    <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
