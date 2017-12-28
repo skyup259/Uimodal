@@ -1,4 +1,6 @@
 var app = angular.module('myApp', ['ui.router']);
+
+//Routing for dashboard.html and addwidget.html
 app.config(function ($stateProvider) {
     var dashboard = {
         name: 'dashboard',
@@ -20,7 +22,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state(addwidget);
 });
 
-
+// giving the funcitonality of get, set and remove
 app.factory('$storage', function ($window) {
     return {
         get: function (key) {
@@ -37,7 +39,7 @@ app.factory('$storage', function ($window) {
 });
 app.controller('TestCtrl', function ($scope, $storage) {
     $scope.$storage = $storage;
-
+// function is for dashboard name list
     $scope.setDisplay = function () {
         var local = []; //[{ "name": "saurabh" }, { "name": "kumar" }, { "name": "sunny" }];
         localStorage["local"] = JSON.stringify(local);
@@ -56,7 +58,8 @@ app.controller('TestCtrl', function ($scope, $storage) {
         }
     }
 
-    $scope.allStorage = function () {
+//assigning dashboardName to corresponding value like key value pair
+$scope.allStorage = function () {
        // console.log("in");
         var values = [],
             keys = Object.keys(localStorage);
@@ -69,46 +72,48 @@ app.controller('TestCtrl', function ($scope, $storage) {
         $scope.check = values;
     }
 
-    function displayGraphChart(type, data1, data2, width, height) {
-        typeVar = type;
-       // console.log("data1="+ data1);
-       // console.log("data2="+ data2);
-        var config = {};
-        config.bindto = '#' + type;
-        config.data = {};
-        config.data.json = {};
-        config.data.json.data1 = data1.split(",");
-        config.data.json.data2 = data2.split(",");
-        config.axis = { "y": { "label": { "text": "Number of items", "position": "outer-middle" } } };
-        config.data.types = { "data1": type, "data2": type };
-        config.size = { width: width * 100, height: height * 100 };
-        config.override = { borderColor: ['rgba(0, 255, 0, 1)', 'rgba(0, 255, 0, 1)'], hoverBorderColor: ['rgba(0, 255, 0, 1)', 'rgba(0, 255, 0, 1)'] };
-        config.border = { width: 4};
-        $scope.chart = c3.generate(config);
-    }
+//fuction all all the information to generate chart for dashboard modal page
+function displayGraphChart(type, data1, data2, width, height) {
+    console.log("1");
+    typeVar = type;
+   // console.log("data1="+ data1);
+   // console.log("data2="+ data2);
+    var config = {};
+    config.bindto = '#' + type;
+    config.data = {};
+    config.data.json = {};
+    config.data.json.data1 = data1.split(",");
+    config.data.json.data2 = data2.split(",");
+    config.axis = { "y": { "label": { "text": "Number of items", "position": "outer-middle" } } };
+    config.data.types = { "data1": type, "data2": type };
+    config.size = { width: width * 100, height: height * 100 };
+    config.override = { borderColor: ['rgba(0, 255, 0, 1)', 'rgba(0, 255, 0, 1)'], hoverBorderColor: ['rgba(0, 255, 0, 1)', 'rgba(0, 255, 0, 1)'] };
+    $scope.chart = c3.generate(config);
+}
 
 /**
 function is for displaychart of resp name by getting data from localstroge
 param: key-> passing key from the localstroage 
 */
-    $scope.displayChart = function(key) {
-           
-            var output = document.getElementById('chart');
-            var val="";
-            for(var i = 0;i<$storage.get(key).length;i++){
-                var innerdiv = document.createElement('div');
-                innerdiv.id = $storage.get(key)[i].type;
-                chart.appendChild(innerdiv);
-            }
-
-            for(var i = 0;i<$storage.get(key).length;i++){
-              
-                 displayGraphChart($storage.get(key)[i].type, $storage.get(key)[i].data1, $storage.get(key)[i].data2, $storage.get(key)[i].width, $storage.get(key)[i].heigth);
-            }
+$scope.displayChart = function(key) {
+           console.log("2");
+        var output = document.getElementById('chart');
+        var val="";
+        for(var i = 0;i<$storage.get(key).length;i++){
+            var innerdiv = document.createElement('div');
+            innerdiv.id = $storage.get(key)[i].type;
+            chart.appendChild(innerdiv);
         }
-    });
-app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
 
+        for(var i = 0;i<$storage.get(key).length;i++){
+          
+             displayGraphChart($storage.get(key)[i].type, $storage.get(key)[i].data1, $storage.get(key)[i].data2, $storage.get(key)[i].width, $storage.get(key)[i].heigth);
+        }
+    }
+});
+app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
+console.log("3");
+//intilizing ng-modal data
     $scope.chartType = ["pie", "bar", "area", "line", "spline", "step"];
     $scope.width = "5";
     $scope.height = "5";
@@ -130,37 +135,10 @@ app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
     $scope.config.data2 = "65421331, 65464313, 52434364, 223686464, 55564649";
     $scope.config.data3 = "321, 5465, 546546, 46545, 5465465";
     $scope.userInfo = []; // adding all user infromation in this array that is type, xaxis data and yaxis data 
-
     // function create chart by taking type of chart and data for both axis
     // adding all new tab in parents div(id= "tabs")
-
-    $(document).ready(function () {
-        $("div#tabs").tabs();
-
-        $("button#newtab").click(function () {
-
-            var num_tabs = typeVar;
-            // alert("num_tabs "+typeVar);
-            $("div#tabs").append(
-                "<div id=" + num_tabs + " </div>"
-            );
-            $("div#tabs ul").append(
-                "<li><a href= #" + num_tabs + ">" + num_tabs + "</a></li>"
-            );
-
-        });
-    });
-
-
-    $scope.IsVisible = false;
-    $scope.ShowHide = function () {
-        //If DIV is visible it will be hidden and vice versa.
-
-        $scope.IsVisible = true;
-    }
-
-
     $scope.Graph = function (type, data1, data2, width, height) {
+        console.log("4");
         // console.log("in");
         $rootScope.firstname = "sunny";
         typeVar = type;
@@ -177,7 +155,7 @@ app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
         config.border = { width: 4};
         $scope.chart = c3.generate(config);
 
-        // Adding all user information 	
+        // Adding all user information  
        // type = "type: " + type +" ";
        // data1 = "data1: " + data1 + " ";
         // data2 = "data2: " + data2 + " ";
@@ -188,6 +166,25 @@ app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
       //  console.log(userInfo);
         $scope.users = null;
     }
+   // $(document).ready(function () {
+       // $("div#tabs").tabs();
+        $("button#newtab").click(function () {
+            console.log("5");
+            var num_tabs = typeVar;
+            $("#tabs").append(
+                "<div id=" + num_tabs + " </div>",
+               // "<a href= #" + num_tabs + ">" + num_tabs + "</a>"
+            );
+        });
+   // });
+
+    $scope.IsVisible = false;
+    $scope.ShowHide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.IsVisible = true;
+    }
+
+    
 
     $scope.dashboard = function (name) {
         //userinfo = userinfo.toString();
@@ -201,7 +198,6 @@ app.controller('GraphCtrl', function ($scope, $rootScope, $storage) {
         var userdetail = $scope.userInfo;
         $storage.set(username, userdetail);
     }
- 
 });
 
 // button hide and show controller

@@ -1,8 +1,16 @@
-﻿
+
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
-            <button ng-init="btnsave=false" class="btn btn-primary btn-sm pull-right" data-target="#loginModal" data-toggle="modal" style="margin:20px">Widget Setting</button>
+        <div >
+            <table id="addwedgetdashboard" cellSpacing='0'>
+                <tr>
+                    <td > Dashboard Name </td>
+                    <td> <input ng-model="firstname"> </td>
+                    <td> <button ng-init="btnsave=false" class="btn btn-danger" data-target="#loginModal" data-toggle="modal">Widget Setting</button> </td>
+                    <td><button ng-intin="info=false" ng-show="IsVisible" class="btn btn-primary" data-target="#dashboardname" data-toggle="modal" ng-click="info=!info">Save Dashboard </button></td>
+                </tr>
+            </table>
+
             <div class="modal" data-keyboard="false" data-backdrop="static" id="loginModal" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -52,7 +60,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button id="newtab" class="btn btn-primary" ng-click="Graph(selectedType,selecteddata1,selecteddata2, width, height); ShowHide(); ok()">OK</button>
+                            <button id="newtab" class="btn btn-primary" ng-click="Graph(selectedType,selecteddata1,selecteddata2, width, height); ShowHide()">OK</button>
                             <button class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -91,17 +99,13 @@
         </div>
     </div>
 
-
     <div if="chart">
     </div>
 </div>
-                    <div>
-                        <button ng-intin="info=false" ng-show="IsVisible" class="btn pull-right btn-primary btn-sm" data-target="#dashboardname" data-toggle="modal" style="float:right; margin-left: 20px; margin-right:40px; margin-top:40px" ng-click="info=!info">Save Dashboard </button>
-                    </div>
 
-                    <!-- creating tab with html -->
-                    <div id='tabs' style="height: 300px; align-content: left">
-                        <ul class="nav nav-tabs"></ul>
-                    </div>
+<!-- creating tab with html -->
+<div id='tabs' class="nav nav-tabs">
+    
+</div>
 
 

@@ -130,9 +130,7 @@ graphApp.controller('TestCtrl', function ($scope, $rootScope, $storage) {
        // console.log(username);
         console.log($rootScope.firstname);
         //$storage.set(username, userdetail);
-
     }
-
 });
 
 
